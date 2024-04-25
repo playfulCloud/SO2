@@ -19,6 +19,8 @@ int main(void) {
         return -1;
     }
     SharedResources sharedResources;
+    sharedResources.loadingCars = false;
+    sharedResources.raftSwim = false;
     auto *board = new Board(window);
     auto *raft = new Raft(window,sharedResources);
     auto *car = new Car(window,sharedResources);
