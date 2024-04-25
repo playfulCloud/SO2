@@ -8,7 +8,9 @@
 
 #include "../shared/SharedResources.h"
 
-
+enum class CarDirection {
+    Right, Left, Up, OnRaft, None
+};
 
 
 class Car {
@@ -37,6 +39,7 @@ private:
     bool enterTheField = false;
     int counter = 0;
     bool dontMove = false;
+    CarDirection direction = CarDirection::Right;
 public:
     Car(GLFWwindow *win);
     void drawTriangle(float x1, float y1, float x2, float y2, float x3, float y3, float r, float g, float b);
