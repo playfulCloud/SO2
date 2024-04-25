@@ -31,7 +31,7 @@
 			{
 				"command" : 1,
 				"file" : 0,
-				"line" : 16,
+				"line" : 18,
 				"parent" : 0
 			}
 		]
@@ -119,7 +119,8 @@
 			[
 				2,
 				4,
-				6
+				6,
+				7
 			]
 		}
 	],
@@ -162,6 +163,11 @@
 		{
 			"backtrace" : 1,
 			"path" : "car/Car.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "shared/SharedResources.h",
 			"sourceGroupIndex" : 1
 		}
 	],

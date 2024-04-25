@@ -5,10 +5,10 @@
 #include "Raft.h"
 
 
-std::mutex mutex;
+std::mutex raftMutex;
 
-Raft::Raft(GLFWwindow *win) {
-    this->window = win;
+Raft::Raft(GLFWwindow *win, SharedResources& sharedResources) : window(win), sharedResource(sharedResources){
+    loadingCars = false;
 }
 
 void Raft::drawRectangle(float x1, float y1, float x2, float y2, float r, float g, float b) {
@@ -21,32 +21,22 @@ void Raft::drawRectangle(float x1, float y1, float x2, float y2, float r, float 
     glEnd();
 }
 
-void Raft::moveRaftUpAndDown(){
-
-   while(true) {
-        rightUpperCorner -= move;
-        leftBottomCorner -= move;
-        this->drawRectangle(0.65f, leftBottomCorner,1.0f,rightUpperCorner,0.6f, 0.3f, 0.0f);
-        if(leftBottomCorner == bottomY){
-           rightUpperCorner  = standardRightCorner;
-           leftBottomCorner = standardLeftCorner;
-        }
-   }
-}
 
 void Raft::updateRaftPosition() {
-    while (true) { // 'running' to zmienna kontrolująca, kiedy wątek powinien zakończyć działanie
+    while (true) {
         std::this_thread::sleep_for(std::chrono::milliseconds(50)); // Opóźnienie dla symulacji animacji
+        std::lock_guard<std::mutex> lock(raftMutex);
 
-        std::lock_guard<std::mutex> lock(mutex);
-
-        std::cout << leftBottomCorner;
-        if(leftBottomCorner <= bottomY){
+        if (leftBottomCorner <= bottomY) {
+            loadingCars = true;
             leftBottomCorner = standardLeftCorner;
             rightUpperCorner = standardRightCorner;
+            setLoading();
         }
-        leftBottomCorner -= move;
-        rightUpperCorner -= move;
+        if (!loadingCars) {
+            leftBottomCorner -= move;
+            rightUpperCorner -= move;
+        }
     }
 }
 
@@ -56,21 +46,27 @@ void Raft::drawRaft() {
     float localLeftBottomPos;
 
     {
-        std::lock_guard<std::mutex> lock(mutex);
+        std::lock_guard<std::mutex> lock(raftMutex);
         localLeftBottomPos = leftBottomCorner;
         localRightUpperPos = rightUpperCorner;
-
     }
 
-    // Użyj localPosition do rysowania
-//    drawRectangle(0.65f, localPosition, 1.0f, localPosition + height, 0.6f, 0.3f, 0.0f);
-    this->drawRectangle(0.65f, localLeftBottomPos,1.0f,localRightUpperPos,0.6f, 0.3f, 0.0f);
-
+    this->drawRectangle(0.65f, localLeftBottomPos, 1.0f, localRightUpperPos, 0.6f, 0.3f, 0.0f);
 }
 
-
-
-
+void Raft::setLoading() {
+    std::thread([this]() {
+        sharedResource.carsCanLoad.notify_all(); // Powiadom wszystkie samochody oczekujące
+        std::cout << "Raft is now ready to load cars." << std::endl;
+        std::this_thread::sleep_for(std::chrono::seconds(2));
+        {
+            std::lock_guard<std::mutex> lock(raftMutex);
+            loadingCars = false; // Tratwa jest gotowa do załadunku
+        }
+//        carsCanLoad.notify_all(); // Powiadom wszystkie samochody oczekujące
+//        std::cout << "Raft is now ready to load cars." << std::endl;
+    }).detach();
+}
 
 
 

@@ -4,9 +4,6 @@
 
 #include "Board.h"
 
-
-
-
 void Board::clearScreen() {
     glClear(GL_COLOR_BUFFER_BIT);
 }

@@ -6,9 +6,12 @@
 #define SO2_RAFT_H
 
 
+#include "../shared/SharedResources.h"
+
 class Raft {
 
 private:
+
     GLFWwindow* window;
     const float move = 0.01f;
     const float bottomY = -1.0f;
@@ -16,16 +19,16 @@ private:
     const float standardLeftCorner = 0.65;
     float rightUpperCorner = standardRightCorner;
     float leftBottomCorner =standardLeftCorner;
+    bool loadingCars;
+    SharedResources& sharedResource;
 public:
     Raft(GLFWwindow *win);
-
     void drawRectangle(float x1, float y1, float x2, float y2, float r, float g, float b);
-
     void drawRaft();
-
-    void moveRaftUpAndDown();
-
     void updateRaftPosition();
+    void setLoading();
+
+    Raft(GLFWwindow *win, SharedResources &sharedResources);
 };
 
 
