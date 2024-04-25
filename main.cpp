@@ -3,6 +3,7 @@
 #include <thread>
 #include "board/Board.h"
 #include "raft/Raft.h"
+#include "car/Car.h"
 
 int main(void) {
     GLFWwindow *window;
@@ -17,11 +18,14 @@ int main(void) {
         glfwTerminate();
         return -1;
     }
+    SharedResources sharedResources;
     auto *board = new Board(window);
-    auto *raft = new Raft(window);
+    auto *raft = new Raft(window,sharedResources);
+    auto *car = new Car(window,sharedResources);
     glfwMakeContextCurrent(window);
 
     std::thread raftThread(&Raft::updateRaftPosition, raft);
+    std::thread carThread(&Car::updateCarPosition, car);
 
 
     while (!glfwWindowShouldClose(window)) {
@@ -29,6 +33,8 @@ int main(void) {
 
         board->drawBoard();
         raft->drawRaft();
+        car->drawCar();
+
 
         board->display();
         board->processInput();
