@@ -11,6 +11,9 @@
 struct SharedResources {
     std::mutex raftMutex;
     std::condition_variable carsCanLoad;
+    std::condition_variable carsCanUnload;
     bool loadingCars = false;
+    bool raftSwim = false;
+    bool unloadingCars = false;
 };
 #endif //SO2_SHAREDRESOURCES_H

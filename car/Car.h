@@ -8,9 +8,11 @@
 
 #include "../shared/SharedResources.h"
 
+
+
+
 class Car {
 private:
-
     const float firstRespawnX = -0.90f;
     const float firstRespawnY = 0.92f;
     const float secondRespawnX = -0.95f;
@@ -29,6 +31,12 @@ private:
     float firstColor;
     float secondColor;
     float thirdColor;
+    bool right = true;
+    bool left=false;
+    bool up = false;
+    bool enterTheField = false;
+    int counter = 0;
+    bool dontMove = false;
 public:
     Car(GLFWwindow *win);
     void drawTriangle(float x1, float y1, float x2, float y2, float x3, float y3, float r, float g, float b);
@@ -50,6 +58,22 @@ public:
     Car(GLFWwindow *win, SharedResources &resources);
 
     void waitForLoading();
+
+    bool onRaft;
+
+    void goLeft();
+
+    void leaveTheRaft();
+
+    void turnUp();
+
+    void goUp();
+
+    void turnRight();
+
+    void enterTheRaftWithOutWaiting();
+
+    void dontMoveOnRaft();
 };
 
 

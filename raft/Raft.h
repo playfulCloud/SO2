@@ -19,7 +19,6 @@ private:
     const float standardLeftCorner = 0.65;
     float rightUpperCorner = standardRightCorner;
     float leftBottomCorner =standardLeftCorner;
-    bool loadingCars;
     SharedResources& sharedResource;
 public:
     Raft(GLFWwindow *win);
@@ -29,6 +28,10 @@ public:
     void setLoading();
 
     Raft(GLFWwindow *win, SharedResources &sharedResources);
+
+    void setUnLoading();
+
+    void SwimTheRaft();
 };
 
 

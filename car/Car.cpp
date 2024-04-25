@@ -7,38 +7,36 @@
 #include <random>
 #include <thread>
 #include <mutex>
-#include <condition_variable>
 #include <iostream>
+#include <algorithm>
 #include "Car.h"
 
 Car::Car(GLFWwindow *win, SharedResources& resources) : window(win), resource(resources){
     this->firstColor = generateRandomFloat(0.0f,1.0f);
    this->secondColor = generateRandomFloat(0.0f,1.0f);
    this->thirdColor = generateRandomFloat(0.0f,1.0f);
-   this->move = generateRandomFloat(0.0f, 0.03);
+   this->move = generateRandomFloat(0.0f, 0.07);
    this->firstX = firstRespawnX;
    this->firstY = firstRespawnY;
    this->secondX = secondRespawnX;
     this->secondY = secondRespawnY;
     this->thirdX = thirdRespawnX;
     this->thirdY = thirdRespawnY;
+    this->onRaft = false;
 }
 
 std::mutex carMutex;
 
 
 void Car::drawTriangle(float x1, float y1, float x2, float y2, float x3, float y3, float r, float g, float b) {
-    glColor3f(r, g, b); // Ustaw kolor trójkąta
-    glBegin(GL_TRIANGLES); // Rozpocznij rysowanie trójkątów
-    glVertex2f(x1, y1); // Wierzchołek 1
-    glVertex2f(x2, y2); // Wierzchołek 2
-    glVertex2f(x3, y3); // Wierzchołek 3
-    glEnd(); // Zakończ rysowanie trójkątów
+    glColor3f(r, g, b);
+    glBegin(GL_TRIANGLES);
+    glVertex2f(x1, y1);
+    glVertex2f(x2, y2);
+    glVertex2f(x3, y3);
+    glEnd();
 }
 
-void Car::doLap(){
-
-}
 
 void Car::goRight(){
     firstX += move;
@@ -47,31 +45,62 @@ void Car::goRight(){
 }
 
 void Car::goWithRaft(){
-    firstY += 0.01f;
-    secondY += 0.01f;
-    thirdY += 0.01f;
+    firstY -= 0.01f;
+    secondY -= 0.01f;
+    thirdY -= 0.01f;
 }
 
-//
-//void Car::enterRaft() {
-//    std::unique_lock<std::mutex> lock(raftMutex);
-//    carsCanLoad.wait(lock, [this]{ return loadingCars; }); // Czekaj aż tratwa będzie gotowa
-//    // Logika załadunku samochodu na tratwę
-//}
+void Car::goUp(){
+    firstY += move;
+    secondY += move;
+    thirdY += move;
+}
+
+void Car::goLeft(){
+    firstX -= move;
+    secondX -= move;
+    thirdX -= move;
+}
+
+void Car::enterRaft() {
+    firstX += 0.05f;
+    secondX += 0.05f;
+    thirdX += 0.05f;
+}
 
 void Car::updateCarPosition() {
-    while (true) {
-        std::this_thread::sleep_for(std::chrono::milliseconds(50)); // Opóźnienie dla symulacji animacji
-        std::lock_guard<std::mutex> lock(carMutex);
-
-        if(firstX >= 0.65f){
+    while (counter != 10) {
+        std::this_thread::sleep_for(std::chrono::milliseconds(50));
+        if (firstX >= 0.65f && !resource.loadingCars && !onRaft) {
             waitForLoading();
+            right = false;
+        }else if(onRaft && resource.raftSwim){
+           goWithRaft();
+            if(firstY <= -0.65f){
+                leaveTheRaft();
+            }
+        }else if(this->right){
+            std::lock_guard<std::mutex> lock(carMutex);
+            goRight();
+            if(firstX >= 70){
+                enterTheRaftWithOutWaiting();
+            }
+        }else if(this->left && enterTheField){
+            goLeft();
+            if(firstX <= -0.82){
+                turnUp();
+            }
+        }else if(this->up){
+            goUp();
+            if(firstY >= 0.70f){
+                turnRight();
+            }
+        }else if(this->dontMove){
+
         }
-
-        goRight();
-
     }
 }
+
 
 void Car::drawCar(){
     float localFirstX;
@@ -101,15 +130,44 @@ float Car::generateRandomFloat(float bottomBorder, float topBorder) {
     std::random_device rd;
     std::mt19937 gen(rd());
     std::uniform_real_distribution<float> dis(bottomBorder, topBorder);
-
-    return dis(gen); // Wygeneruj losowy float.
+    return dis(gen);
 }
 
 void Car::waitForLoading() {
-    std::cout << "Car can now load onto the raft." << std::endl;
     std::unique_lock<std::mutex> lock(resource.raftMutex);
     resource.carsCanLoad.wait(lock, [this]{ return resource.loadingCars; });
 
-    // Po przebudzeniu, możesz kontynuować z logiką załadunku samochodu
-    // ... tutaj realizacja logiki załadunku
+    enterRaft();
+    onRaft = true;
+}
+
+void Car::leaveTheRaft(){
+   firstX = 0.60f;
+   firstY = -0.77f;
+   secondX = 0.65f;
+   secondY = -0.80f;
+   thirdX = 0.65f;
+   thirdY = -0.75f;
+   this->enterTheField = true;
+   this->left = true;
+   this->onRaft = false;
+}
+
+void Car::turnUp(){
+    this->left = false;
+    this->up = true;
+}
+
+void Car::turnRight(){
+   this->right = true;
+   this->up = false;
+   counter +=1;
+}
+
+void Car::enterTheRaftWithOutWaiting(){
+    this->right = false;
+    onRaft = true;
+}
+
+void Car::dontMoveOnRaft(){
 }

@@ -8,7 +8,6 @@
 std::mutex raftMutex;
 
 Raft::Raft(GLFWwindow *win, SharedResources& sharedResources) : window(win), sharedResource(sharedResources){
-    loadingCars = false;
 }
 
 void Raft::drawRectangle(float x1, float y1, float x2, float y2, float r, float g, float b) {
@@ -28,12 +27,12 @@ void Raft::updateRaftPosition() {
         std::lock_guard<std::mutex> lock(raftMutex);
 
         if (leftBottomCorner <= bottomY) {
-            loadingCars = true;
+            sharedResource.loadingCars = true;
             leftBottomCorner = standardLeftCorner;
             rightUpperCorner = standardRightCorner;
             setLoading();
         }
-        if (!loadingCars) {
+        if (!sharedResource.loadingCars) {
             leftBottomCorner -= move;
             rightUpperCorner -= move;
         }
@@ -56,22 +55,13 @@ void Raft::drawRaft() {
 
 void Raft::setLoading() {
     std::thread([this]() {
-        sharedResource.carsCanLoad.notify_all(); // Powiadom wszystkie samochody oczekujące
-        std::cout << "Raft is now ready to load cars." << std::endl;
+        sharedResource.carsCanLoad.notify_all();
         std::this_thread::sleep_for(std::chrono::seconds(2));
         {
             std::lock_guard<std::mutex> lock(raftMutex);
-            loadingCars = false; // Tratwa jest gotowa do załadunku
+            sharedResource.loadingCars = false;
+            sharedResource.raftSwim = true;
         }
-//        carsCanLoad.notify_all(); // Powiadom wszystkie samochody oczekujące
-//        std::cout << "Raft is now ready to load cars." << std::endl;
+
     }).detach();
 }
-
-
-
-
-
-
-
-
