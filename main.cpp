@@ -11,8 +11,11 @@
 std::atomic<bool> shutdownThreads(false);  // Flag to signal all threads to stop
 
 void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods) {
+    std::cout << "Key pressed: " << key << std::endl;
     if (key == GLFW_KEY_SPACE && action == GLFW_PRESS) {
-        shutdownThreads = true;  // Set the shutdown flag when space is pressed
+        shutdownThreads = true;
+        glfwSetWindowShouldClose(window, GLFW_TRUE);  // Signal that the window should closeA
+        exit(EXIT_SUCCESS);
     }
 }
 
@@ -21,7 +24,7 @@ void manageCarThreads(std::vector<std::thread>& carThreads, std::vector<Car*>& c
     std::mt19937 gen(rd());
     std::uniform_int_distribution<> dis(1, 10000);
 
-    while (!glfwWindowShouldClose(window) && !shutdownThreads) {
+    while (!shutdownThreads) {
         if (dis(gen) < 500 && cars.size() < 4) {
             Car* newCar = new Car(window, sharedResources);
             cars.push_back(newCar);
@@ -29,6 +32,12 @@ void manageCarThreads(std::vector<std::thread>& carThreads, std::vector<Car*>& c
         }
         std::this_thread::sleep_for(std::chrono::milliseconds(100)); // Avoid high CPU usage
     }
+    for (auto& thread : carThreads) {
+        if (thread.joinable()) {
+            thread.join();  // Ensure all car threads are properly joined
+        }
+    }
+    cars.clear();  // Clear the vector of pointers and deallocate Cars
 }
 
 int main(void) {
@@ -38,7 +47,7 @@ int main(void) {
         return -1;
     }
 
-    window = glfwCreateWindow(800, 480, "Niebieski prostokąt w OpenGL", NULL, NULL);
+    window = glfwCreateWindow(800, 480, "Simulation", NULL, NULL);
     if (!window) {
         glfwTerminate();
         return -1;
@@ -58,10 +67,9 @@ int main(void) {
     std::thread manageCarsThread(manageCarThreads, std::ref(carThreads), std::ref(cars), window, std::ref(sharedResources));
 
     while (!glfwWindowShouldClose(window)) {
-        if (shutdownThreads) break;  // Exit loop if shutdown is triggered
+        glfwPollEvents();  // Make sure events are polled to process the space bar press
 
         board.clearScreen();
-
         board.drawBoard();
         raft.drawRaft();
         for (auto car : cars) {
@@ -72,15 +80,11 @@ int main(void) {
         board.processInput();
     }
 
-    manageCarsThread.join();
-    raftThread.join();
-    for (auto& carThread : carThreads) {
-        if (carThread.joinable()) {
-            carThread.join();
-        }
+    if (raftThread.joinable()) {
+        raftThread.join();
     }
-    for (auto car : cars) {
-        delete car;
+    if (manageCarsThread.joinable()) {
+        manageCarsThread.join();
     }
 
     glfwTerminate();

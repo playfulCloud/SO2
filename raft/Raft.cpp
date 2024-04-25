@@ -65,4 +65,5 @@ void Raft::setLoading() {
         }
 
     }).detach();
+
 }
