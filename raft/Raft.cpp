@@ -54,6 +54,7 @@ void Raft::drawRaft() {
 }
 
 void Raft::setLoading() {
+    sharedResource.raftSwim = false;
     std::thread([this]() {
         sharedResource.carsCanLoad.notify_all();
         std::this_thread::sleep_for(std::chrono::seconds(2));

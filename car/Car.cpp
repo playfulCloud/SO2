@@ -15,7 +15,7 @@ Car::Car(GLFWwindow *win, SharedResources& resources) : window(win), resource(re
     this->firstColor = generateRandomFloat(0.0f,1.0f);
    this->secondColor = generateRandomFloat(0.0f,1.0f);
    this->thirdColor = generateRandomFloat(0.0f,1.0f);
-   this->move = generateRandomFloat(0.0f, 0.07);
+   this->move = generateRandomFloat(0.02f, 0.04);
    this->firstX = firstRespawnX;
    this->firstY = firstRespawnY;
    this->secondX = secondRespawnX;
@@ -63,15 +63,15 @@ void Car::goLeft(){
 }
 
 void Car::enterRaft() {
-    firstX += 0.05f;
-    secondX += 0.05f;
-    thirdX += 0.05f;
+    firstX += 0.10f;
+    secondX += 0.10f;
+    thirdX += 0.10f;
 }
 
 void Car::updateCarPosition() {
     while (counter != 10) {
         std::this_thread::sleep_for(std::chrono::milliseconds(50));
-        if (firstX >= 0.65f && !resource.loadingCars && !onRaft) {
+        if (firstX >= 0.62f && !resource.loadingCars && !onRaft) {
             waitForLoading();
             right = false;
         }else if(onRaft && resource.raftSwim){
@@ -80,9 +80,9 @@ void Car::updateCarPosition() {
                 leaveTheRaft();
             }
         }else if(this->right){
-            std::lock_guard<std::mutex> lock(carMutex);
             goRight();
-            if(firstX >= 70){
+            if(firstX >= 0.60f && resource.loadingCars){
+                enterRaft();
                 enterTheRaftWithOutWaiting();
             }
         }else if(this->left && enterTheField){
