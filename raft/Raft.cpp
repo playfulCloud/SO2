@@ -1,7 +1,3 @@
-//
-// Created by playfulCloud on 4/25/24.
-//
-
 #include <GLFW/glfw3.h>
 #include <thread>
 #include <mutex>
@@ -24,11 +20,6 @@ void Raft::drawRectangle(float x1, float y1, float x2, float y2, float r, float 
     glVertex2f(x1, y2);
     glEnd();
 }
-
-
-
-
-
 
 void Raft::moveRaftUpAndDown(){
 
@@ -64,7 +55,6 @@ void Raft::drawRaft() {
     float localRightUpperPos;
     float localLeftBottomPos;
 
-    // Skopiuj stan do lokalnej zmiennej podczas blokowania mutexu
     {
         std::lock_guard<std::mutex> lock(mutex);
         localLeftBottomPos = leftBottomCorner;
