@@ -1,56 +1,37 @@
 #include <GLFW/glfw3.h>
 #include <iostream>
+#include <thread>
+#include "board/Board.h"
+#include "raft/Raft.h"
 
 int main(void) {
-    GLFWwindow* window;
+    GLFWwindow *window;
 
     // Inicjalizacja biblioteki GLFW
     if (!glfwInit()) {
         return -1;
     }
 
-    // Utworzenie okna i jego kontekstu OpenGL
     window = glfwCreateWindow(800, 480, "Niebieski prostokąt w OpenGL", NULL, NULL);
     if (!window) {
         glfwTerminate();
         return -1;
     }
-
-    // Ustawienie kontekstu okna jako bieżącego
+    auto *board = new Board(window);
+    auto *raft = new Raft(window);
     glfwMakeContextCurrent(window);
 
-    // Główna pętla programu
+    std::thread raftThread(&Raft::updateRaftPosition, raft);
+
+
     while (!glfwWindowShouldClose(window)) {
-        // Czyszczenie zawartości okna
-        glClear(GL_COLOR_BUFFER_BIT);
-        std::cout << "test" << std::endl;
-        // Ustawienie koloru rysowania (niebieski)
-        glColor3f(0.0f, 0.0f, 1.0f);
+        board->clearScreen();
 
-        // Rysowanie prostokąta
-        glBegin(
-                GL_QUADS);
-        glVertex2f(-1.5f, -1.5f);
-        glVertex2f(2.0f, -1.5f);
-        glVertex2f(2.0f, 1.5f);
-        glVertex2f(-1.5f, 1.5f);
+        board->drawBoard();
+        raft->drawRaft();
 
-        
-        glVertex2f(-1.5f, -1.5f);
-        glVertex2f(2.0f, -1.5f);
-        glVertex2f(2.0f, 1.5f);
-        glVertex2f(-1.5f, 1.5f);
-
-        glColor3f(0.0f, 1.0f, 0.0f);
-        glVertex2f(-0.75f, -0.75f);
-        glVertex2f(0.75f, -0.75f);
-        glVertex2f(0.75f, 0.75f);
-        glVertex2f(-0.75f, 0.75f);
-        glEnd();
-
-        // Zamiana buforów i obsługa zdarzeń
-        glfwSwapBuffers(window);
-        glfwPollEvents();
+        board->display();
+        board->processInput();
     }
 
     glfwTerminate();

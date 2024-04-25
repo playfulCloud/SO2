@@ -83,20 +83,68 @@ CMakeFiles/SO2.dir/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/SO2.dir/main.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/playfulCloud/CLionProjects/SO2/main.cpp -o CMakeFiles/SO2.dir/main.cpp.s
 
+CMakeFiles/SO2.dir/raft/Raft.cpp.o: CMakeFiles/SO2.dir/flags.make
+CMakeFiles/SO2.dir/raft/Raft.cpp.o: /home/playfulCloud/CLionProjects/SO2/raft/Raft.cpp
+CMakeFiles/SO2.dir/raft/Raft.cpp.o: CMakeFiles/SO2.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/playfulCloud/CLionProjects/SO2/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/SO2.dir/raft/Raft.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/SO2.dir/raft/Raft.cpp.o -MF CMakeFiles/SO2.dir/raft/Raft.cpp.o.d -o CMakeFiles/SO2.dir/raft/Raft.cpp.o -c /home/playfulCloud/CLionProjects/SO2/raft/Raft.cpp
+
+CMakeFiles/SO2.dir/raft/Raft.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/SO2.dir/raft/Raft.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/playfulCloud/CLionProjects/SO2/raft/Raft.cpp > CMakeFiles/SO2.dir/raft/Raft.cpp.i
+
+CMakeFiles/SO2.dir/raft/Raft.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/SO2.dir/raft/Raft.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/playfulCloud/CLionProjects/SO2/raft/Raft.cpp -o CMakeFiles/SO2.dir/raft/Raft.cpp.s
+
+CMakeFiles/SO2.dir/board/Board.cpp.o: CMakeFiles/SO2.dir/flags.make
+CMakeFiles/SO2.dir/board/Board.cpp.o: /home/playfulCloud/CLionProjects/SO2/board/Board.cpp
+CMakeFiles/SO2.dir/board/Board.cpp.o: CMakeFiles/SO2.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/playfulCloud/CLionProjects/SO2/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/SO2.dir/board/Board.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/SO2.dir/board/Board.cpp.o -MF CMakeFiles/SO2.dir/board/Board.cpp.o.d -o CMakeFiles/SO2.dir/board/Board.cpp.o -c /home/playfulCloud/CLionProjects/SO2/board/Board.cpp
+
+CMakeFiles/SO2.dir/board/Board.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/SO2.dir/board/Board.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/playfulCloud/CLionProjects/SO2/board/Board.cpp > CMakeFiles/SO2.dir/board/Board.cpp.i
+
+CMakeFiles/SO2.dir/board/Board.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/SO2.dir/board/Board.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/playfulCloud/CLionProjects/SO2/board/Board.cpp -o CMakeFiles/SO2.dir/board/Board.cpp.s
+
+CMakeFiles/SO2.dir/car/Car.cpp.o: CMakeFiles/SO2.dir/flags.make
+CMakeFiles/SO2.dir/car/Car.cpp.o: /home/playfulCloud/CLionProjects/SO2/car/Car.cpp
+CMakeFiles/SO2.dir/car/Car.cpp.o: CMakeFiles/SO2.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/playfulCloud/CLionProjects/SO2/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/SO2.dir/car/Car.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/SO2.dir/car/Car.cpp.o -MF CMakeFiles/SO2.dir/car/Car.cpp.o.d -o CMakeFiles/SO2.dir/car/Car.cpp.o -c /home/playfulCloud/CLionProjects/SO2/car/Car.cpp
+
+CMakeFiles/SO2.dir/car/Car.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/SO2.dir/car/Car.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/playfulCloud/CLionProjects/SO2/car/Car.cpp > CMakeFiles/SO2.dir/car/Car.cpp.i
+
+CMakeFiles/SO2.dir/car/Car.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/SO2.dir/car/Car.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/playfulCloud/CLionProjects/SO2/car/Car.cpp -o CMakeFiles/SO2.dir/car/Car.cpp.s
+
 # Object files for target SO2
 SO2_OBJECTS = \
-"CMakeFiles/SO2.dir/main.cpp.o"
+"CMakeFiles/SO2.dir/main.cpp.o" \
+"CMakeFiles/SO2.dir/raft/Raft.cpp.o" \
+"CMakeFiles/SO2.dir/board/Board.cpp.o" \
+"CMakeFiles/SO2.dir/car/Car.cpp.o"
 
 # External object files for target SO2
 SO2_EXTERNAL_OBJECTS =
 
 SO2: CMakeFiles/SO2.dir/main.cpp.o
+SO2: CMakeFiles/SO2.dir/raft/Raft.cpp.o
+SO2: CMakeFiles/SO2.dir/board/Board.cpp.o
+SO2: CMakeFiles/SO2.dir/car/Car.cpp.o
 SO2: CMakeFiles/SO2.dir/build.make
 SO2: /usr/lib/libGL.so
 SO2: /usr/lib/libGLU.so
 SO2: /usr/lib/libglfw.so.3.4
 SO2: CMakeFiles/SO2.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/playfulCloud/CLionProjects/SO2/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable SO2"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/playfulCloud/CLionProjects/SO2/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Linking CXX executable SO2"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/SO2.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
