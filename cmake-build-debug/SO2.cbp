@@ -82,7 +82,25 @@
 				</MakeCommands>
 			</Target>
 		</Build>
+		<Unit filename="/home/playfulCloud/CLionProjects/SO2/board/Board.cpp">
+			<Option target="SO2"/>
+		</Unit>
+		<Unit filename="/home/playfulCloud/CLionProjects/SO2/board/Board.h">
+			<Option target="SO2"/>
+		</Unit>
+		<Unit filename="/home/playfulCloud/CLionProjects/SO2/car/Car.cpp">
+			<Option target="SO2"/>
+		</Unit>
+		<Unit filename="/home/playfulCloud/CLionProjects/SO2/car/Car.h">
+			<Option target="SO2"/>
+		</Unit>
 		<Unit filename="/home/playfulCloud/CLionProjects/SO2/main.cpp">
+			<Option target="SO2"/>
+		</Unit>
+		<Unit filename="/home/playfulCloud/CLionProjects/SO2/raft/Raft.cpp">
+			<Option target="SO2"/>
+		</Unit>
+		<Unit filename="/home/playfulCloud/CLionProjects/SO2/raft/Raft.h">
 			<Option target="SO2"/>
 		</Unit>
 		<Unit filename="/home/playfulCloud/CLionProjects/SO2/CMakeLists.txt">

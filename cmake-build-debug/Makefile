@@ -129,6 +129,54 @@ SO2/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/SO2.dir/build.make CMakeFiles/SO2.dir/build
 .PHONY : SO2/fast
 
+board/Board.o: board/Board.cpp.o
+.PHONY : board/Board.o
+
+# target to build an object file
+board/Board.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/SO2.dir/build.make CMakeFiles/SO2.dir/board/Board.cpp.o
+.PHONY : board/Board.cpp.o
+
+board/Board.i: board/Board.cpp.i
+.PHONY : board/Board.i
+
+# target to preprocess a source file
+board/Board.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/SO2.dir/build.make CMakeFiles/SO2.dir/board/Board.cpp.i
+.PHONY : board/Board.cpp.i
+
+board/Board.s: board/Board.cpp.s
+.PHONY : board/Board.s
+
+# target to generate assembly for a file
+board/Board.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/SO2.dir/build.make CMakeFiles/SO2.dir/board/Board.cpp.s
+.PHONY : board/Board.cpp.s
+
+car/Car.o: car/Car.cpp.o
+.PHONY : car/Car.o
+
+# target to build an object file
+car/Car.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/SO2.dir/build.make CMakeFiles/SO2.dir/car/Car.cpp.o
+.PHONY : car/Car.cpp.o
+
+car/Car.i: car/Car.cpp.i
+.PHONY : car/Car.i
+
+# target to preprocess a source file
+car/Car.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/SO2.dir/build.make CMakeFiles/SO2.dir/car/Car.cpp.i
+.PHONY : car/Car.cpp.i
+
+car/Car.s: car/Car.cpp.s
+.PHONY : car/Car.s
+
+# target to generate assembly for a file
+car/Car.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/SO2.dir/build.make CMakeFiles/SO2.dir/car/Car.cpp.s
+.PHONY : car/Car.cpp.s
+
 main.o: main.cpp.o
 .PHONY : main.o
 
@@ -153,6 +201,30 @@ main.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/SO2.dir/build.make CMakeFiles/SO2.dir/main.cpp.s
 .PHONY : main.cpp.s
 
+raft/Raft.o: raft/Raft.cpp.o
+.PHONY : raft/Raft.o
+
+# target to build an object file
+raft/Raft.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/SO2.dir/build.make CMakeFiles/SO2.dir/raft/Raft.cpp.o
+.PHONY : raft/Raft.cpp.o
+
+raft/Raft.i: raft/Raft.cpp.i
+.PHONY : raft/Raft.i
+
+# target to preprocess a source file
+raft/Raft.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/SO2.dir/build.make CMakeFiles/SO2.dir/raft/Raft.cpp.i
+.PHONY : raft/Raft.cpp.i
+
+raft/Raft.s: raft/Raft.cpp.s
+.PHONY : raft/Raft.s
+
+# target to generate assembly for a file
+raft/Raft.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/SO2.dir/build.make CMakeFiles/SO2.dir/raft/Raft.cpp.s
+.PHONY : raft/Raft.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -162,9 +234,18 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... SO2"
+	@echo "... board/Board.o"
+	@echo "... board/Board.i"
+	@echo "... board/Board.s"
+	@echo "... car/Car.o"
+	@echo "... car/Car.i"
+	@echo "... car/Car.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"
+	@echo "... raft/Raft.o"
+	@echo "... raft/Raft.i"
+	@echo "... raft/Raft.s"
 .PHONY : help
 
 

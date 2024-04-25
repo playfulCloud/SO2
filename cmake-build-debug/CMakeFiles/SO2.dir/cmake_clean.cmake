@@ -1,6 +1,12 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/SO2.dir/board/Board.cpp.o"
+  "CMakeFiles/SO2.dir/board/Board.cpp.o.d"
+  "CMakeFiles/SO2.dir/car/Car.cpp.o"
+  "CMakeFiles/SO2.dir/car/Car.cpp.o.d"
   "CMakeFiles/SO2.dir/main.cpp.o"
   "CMakeFiles/SO2.dir/main.cpp.o.d"
+  "CMakeFiles/SO2.dir/raft/Raft.cpp.o"
+  "CMakeFiles/SO2.dir/raft/Raft.cpp.o.d"
   "SO2"
   "SO2.pdb"
 )

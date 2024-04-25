@@ -91,7 +91,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "0"
+			"value" : "1"
 		},
 		{
 			"name" : "CMAKE_CODEBLOCKS_COMPILER_ID",
@@ -206,7 +206,7 @@
 					"value" : "CXX compiler"
 				}
 			],
-			"type" : "FILEPATH",
+			"type" : "STRING",
 			"value" : "/usr/bin/c++"
 		},
 		{
@@ -334,7 +334,7 @@
 					"value" : "C compiler"
 				}
 			],
-			"type" : "FILEPATH",
+			"type" : "STRING",
 			"value" : "/usr/bin/cc"
 		},
 		{
