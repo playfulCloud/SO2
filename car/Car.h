@@ -77,6 +77,8 @@ public:
     void enterTheRaftWithOutWaiting();
 
     void dontMoveOnRaft();
+
+    void rearrangeVertices();
 };
 
 

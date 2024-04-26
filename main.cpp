@@ -9,6 +9,7 @@
 #include "car/Car.h"
 
 std::atomic<bool> shutdownThreads(false);  // Flag to signal all threads to stop
+GLFWwindow* window;
 
 void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods) {
     std::cout << "Key pressed: " << key << std::endl;
@@ -30,18 +31,17 @@ void manageCarThreads(std::vector<std::thread>& carThreads, std::vector<Car*>& c
             cars.push_back(newCar);
             carThreads.emplace_back(&Car::updateCarPosition, newCar);
         }
-        std::this_thread::sleep_for(std::chrono::milliseconds(100)); // Avoid high CPU usage
+        std::this_thread::sleep_for(std::chrono::milliseconds(100));
     }
     for (auto& thread : carThreads) {
         if (thread.joinable()) {
-            thread.join();  // Ensure all car threads are properly joined
+            thread.join();
         }
     }
-    cars.clear();  // Clear the vector of pointers and deallocate Cars
+    cars.clear();
 }
 
 int main(void) {
-    GLFWwindow* window;
 
     if (!glfwInit()) {
         return -1;

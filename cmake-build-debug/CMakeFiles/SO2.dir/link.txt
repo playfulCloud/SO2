@@ -1,0 +1,1 @@
+/usr/bin/c++ -g CMakeFiles/SO2.dir/main.cpp.o CMakeFiles/SO2.dir/raft/Raft.cpp.o CMakeFiles/SO2.dir/board/Board.cpp.o CMakeFiles/SO2.dir/car/Car.cpp.o -o SO2  /usr/lib/libGL.so /usr/lib/libGLU.so /usr/lib/libglfw.so.3.4

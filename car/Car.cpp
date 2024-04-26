@@ -69,7 +69,7 @@ void Car::enterRaft() {
 }
 
 void Car::updateCarPosition() {
-    while (counter != 10) {
+    while (counter != 4) {
         std::this_thread::sleep_for(std::chrono::milliseconds(50));
         if (firstX >= 0.62f && !resource.loadingCars && !onRaft) {
             waitForLoading();
@@ -162,6 +162,7 @@ void Car::turnRight(){
    this->right = true;
    this->up = false;
    counter +=1;
+   rearrangeVertices();
 }
 
 void Car::enterTheRaftWithOutWaiting(){
@@ -170,4 +171,12 @@ void Car::enterTheRaftWithOutWaiting(){
 }
 
 void Car::dontMoveOnRaft(){
+}
+
+void Car::rearrangeVertices() {
+    float tempX = firstX, tempY = firstY;
+    firstX = secondX;
+    secondX = tempX;
+    firstY = secondY;
+    secondY = tempY;
 }

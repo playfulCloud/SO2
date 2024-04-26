@@ -22,7 +22,7 @@ void Raft::drawRectangle(float x1, float y1, float x2, float y2, float r, float 
 
 
 void Raft::updateRaftPosition() {
-    while (true) {
+    while (running) {
         std::this_thread::sleep_for(std::chrono::milliseconds(50)); // Opóźnienie dla symulacji animacji
         std::lock_guard<std::mutex> lock(raftMutex);
 
@@ -67,3 +67,7 @@ void Raft::setLoading() {
     }).detach();
 
 }
+
+void Raft::stop(){
+   this->running = false;
+};
