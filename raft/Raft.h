@@ -20,6 +20,7 @@ private:
     float rightUpperCorner = standardRightCorner;
     float leftBottomCorner =standardLeftCorner;
     SharedResources& sharedResource;
+    bool running = true;
 public:
     Raft(GLFWwindow *win);
     void drawRectangle(float x1, float y1, float x2, float y2, float r, float g, float b);
@@ -32,6 +33,7 @@ public:
     void setUnLoading();
 
     void SwimTheRaft();
+    void stop();
 };
 
 

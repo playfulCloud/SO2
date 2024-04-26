@@ -103,6 +103,9 @@
 		<Unit filename="/home/playfulCloud/CLionProjects/SO2/raft/Raft.h">
 			<Option target="SO2"/>
 		</Unit>
+		<Unit filename="/home/playfulCloud/CLionProjects/SO2/shared/SharedResources.h">
+			<Option target="SO2"/>
+		</Unit>
 		<Unit filename="/home/playfulCloud/CLionProjects/SO2/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\"/>
 		</Unit>
