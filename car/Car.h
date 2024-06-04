@@ -31,13 +31,17 @@ private:
     bool left = false;
     bool up = false;
     bool enterTheField = false;
+    bool colision = true;
     int counter = 0;
     bool dontMove = false;
     CarDirection direction = CarDirection::Right;
     std::vector<Car>car;
+    std::chrono::steady_clock::time_point collisionTime;
+
 public:
     Car(GLFWwindow *win);
     void drawRectangle(float x1, float y1, float width, float height, float r, float g, float b);
+    bool isWaitingForLoading() const;
 
     void drawCar();
 
@@ -72,6 +76,10 @@ public:
     void enterTheRaftWithOutWaiting();
 
     void dontMoveOnRaft();
+
+    bool isCollidingWith(const Car& other);
+
+    void handleCollision(Car& other);
 };
 
 #endif //SO2_CAR_H
