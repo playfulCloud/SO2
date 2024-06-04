@@ -23,6 +23,7 @@ Car::Car(GLFWwindow *win, SharedResources& resources) : window(win), resource(re
     this->thirdX = thirdRespawnX;
     this->thirdY = thirdRespawnY;
     this->onRaft = false;
+    this->normalMove = move;
 }
 
 std::mutex carMutex;
@@ -87,11 +88,13 @@ void Car::updateCarPosition() {
             }
         }else if(this->left && enterTheField){
             goLeft();
+            this->move = noSpeeding;
             if(firstX <= -0.82){
                 turnUp();
             }
         }else if(this->up){
             goUp();
+            this->move = normalMove;
             if(firstY >= 0.70f){
                 turnRight();
             }

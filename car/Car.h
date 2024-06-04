@@ -21,6 +21,8 @@ private:
     const float secondRespawnY = 0.95f;
     const float thirdRespawnX = -0.95f;
     const float thirdRespawnY = 0.90f;
+    const float noSpeeding = 0.01f;
+    float normalMove;
     float move;
     float firstX;
     float firstY;
