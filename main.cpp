@@ -31,7 +31,7 @@ void manageCarThreads(std::vector<std::thread>& carThreads, std::vector<Car*>& c
             cars.push_back(newCar);
             carThreads.emplace_back(&Car::updateCarPosition, newCar);
         }
-        std::this_thread::sleep_for(std::chrono::milliseconds(100));
+        std::this_thread::sleep_for(std::chrono::milliseconds(50));
     }
     for (auto& thread : carThreads) {
         if (thread.joinable()) {
@@ -72,19 +72,21 @@ int main(void) {
         board.clearScreen();
         board.drawBoard();
         raft.drawRaft();
-        for (auto car : cars) {
-            car->drawCar();
+
+        // Wykrywanie i obsługa kolizji
+        for (size_t i = 0; i < cars.size(); ++i) {
+            for (size_t j = i + 1; j < cars.size(); ++j) {
+                if (cars[i]->isWaitingForLoading() && cars[j]->isWaitingForLoading()) {
+                    if (cars[i]->isCollidingWith(*cars[j])) {
+                        cars[i]->handleCollision(*cars[j]);
+                    }
+                }
+            }
+            cars[i]->drawCar();
         }
 
         board.display();
         board.processInput();
-    }
-
-    if (raftThread.joinable()) {
-        raftThread.join();
-    }
-    if (manageCarsThread.joinable()) {
-        manageCarsThread.join();
     }
 
     glfwTerminate();
