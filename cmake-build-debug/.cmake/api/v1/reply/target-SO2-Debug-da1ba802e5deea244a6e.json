@@ -31,7 +31,7 @@
 			{
 				"command" : 1,
 				"file" : 0,
-				"line" : 18,
+				"line" : 19,
 				"parent" : 0
 			}
 		]
@@ -120,7 +120,8 @@
 				2,
 				4,
 				6,
-				7
+				7,
+				8
 			]
 		}
 	],
@@ -168,6 +169,11 @@
 		{
 			"backtrace" : 1,
 			"path" : "shared/SharedResources.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "shared/CarsHolder.h",
 			"sourceGroupIndex" : 1
 		}
 	],

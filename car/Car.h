@@ -5,46 +5,39 @@
 #ifndef SO2_CAR_H
 #define SO2_CAR_H
 
-
 #include "../shared/SharedResources.h"
 
 enum class CarDirection {
     Right, Left, Up, OnRaft, None
 };
 
-
 class Car {
 private:
     const float firstRespawnX = -0.90f;
     const float firstRespawnY = 0.92f;
-    const float secondRespawnX = -0.95f;
-    const float secondRespawnY = 0.95f;
-    const float thirdRespawnX = -0.95f;
-    const float thirdRespawnY = 0.90f;
     const float noSpeeding = 0.01f;
     float normalMove;
     float move;
-    float firstX;
-    float firstY;
-    float secondX;
-    float secondY;
-    float thirdX;
-    float thirdY;
+    float posX;
+    float posY;
+    float width;
+    float height;
     SharedResources& resource;
     GLFWwindow* window;
-    float firstColor;
-    float secondColor;
-    float thirdColor;
+    float colorR;
+    float colorG;
+    float colorB;
     bool right = true;
-    bool left=false;
+    bool left = false;
     bool up = false;
     bool enterTheField = false;
     int counter = 0;
     bool dontMove = false;
     CarDirection direction = CarDirection::Right;
+    std::vector<Car>car;
 public:
     Car(GLFWwindow *win);
-    void drawTriangle(float x1, float y1, float x2, float y2, float x3, float y3, float r, float g, float b);
+    void drawRectangle(float x1, float y1, float width, float height, float r, float g, float b);
 
     void drawCar();
 
@@ -79,9 +72,6 @@ public:
     void enterTheRaftWithOutWaiting();
 
     void dontMoveOnRaft();
-
-    void rearrangeVertices();
 };
-
 
 #endif //SO2_CAR_H
