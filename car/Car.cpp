@@ -11,123 +11,125 @@
 #include <algorithm>
 #include "Car.h"
 
-Car::Car(GLFWwindow *win, SharedResources& resources) : window(win), resource(resources){
-    this->firstColor = generateRandomFloat(0.0f,1.0f);
-   this->secondColor = generateRandomFloat(0.0f,1.0f);
-   this->thirdColor = generateRandomFloat(0.0f,1.0f);
-   this->move = generateRandomFloat(0.02f, 0.04);
-   this->firstX = firstRespawnX;
-   this->firstY = firstRespawnY;
-   this->secondX = secondRespawnX;
-    this->secondY = secondRespawnY;
-    this->thirdX = thirdRespawnX;
-    this->thirdY = thirdRespawnY;
+Car::Car(GLFWwindow *win, SharedResources& resources) : window(win), resource(resources) {
+    this->colorR = generateRandomFloat(0.0f, 1.0f);
+    this->colorG = generateRandomFloat(0.0f, 1.0f);
+    this->colorB = generateRandomFloat(0.0f, 1.0f);
+    this->move = generateRandomFloat(0.02f, 0.04f);
+    this->posX = firstRespawnX;
+    this->posY = firstRespawnY;
+    this->width = 0.1f;  // Adjust width as necessary
+    this->height = 0.05f; // Adjust height as necessary
     this->onRaft = false;
     this->normalMove = move;
 }
 
 std::mutex carMutex;
 
-
-void Car::drawTriangle(float x1, float y1, float x2, float y2, float x3, float y3, float r, float g, float b) {
+void Car::drawRectangle(float x1, float y1, float width, float height, float r, float g, float b) {
     glColor3f(r, g, b);
-    glBegin(GL_TRIANGLES);
+    glBegin(GL_QUADS);
     glVertex2f(x1, y1);
-    glVertex2f(x2, y2);
-    glVertex2f(x3, y3);
+    glVertex2f(x1 + width, y1);
+    glVertex2f(x1 + width, y1 - height);
+    glVertex2f(x1, y1 - height);
     glEnd();
 }
 
-
-void Car::goRight(){
-    firstX += move;
-    secondX += move;
-    thirdX += move;
+void Car::goRight() {
+    posX += move;
+    direction = CarDirection::Right;
 }
 
-void Car::goWithRaft(){
-    firstY -= 0.01f;
-    secondY -= 0.01f;
-    thirdY -= 0.01f;
+void Car::goWithRaft() {
+    posY -= 0.01f;
+    direction = CarDirection::OnRaft;
 }
 
-void Car::goUp(){
-    firstY += move;
-    secondY += move;
-    thirdY += move;
+void Car::goUp() {
+    posY += move;
+    direction = CarDirection::Up;
 }
 
-void Car::goLeft(){
-    firstX -= move;
-    secondX -= move;
-    thirdX -= move;
+void Car::goLeft() {
+    posX -= move;
+    direction = CarDirection::Left;
 }
 
 void Car::enterRaft() {
-    firstX += 0.10f;
-    secondX += 0.10f;
-    thirdX += 0.10f;
+    posX += 0.20f;
+    direction = CarDirection::OnRaft;
 }
 
 void Car::updateCarPosition() {
     while (counter != 4) {
         std::this_thread::sleep_for(std::chrono::milliseconds(50));
-        if (firstX >= 0.62f && !resource.loadingCars && !onRaft) {
+        if (posX >= 0.58f && !resource.loadingCars && !onRaft) {
             waitForLoading();
             right = false;
-        }else if(onRaft && resource.raftSwim){
-           goWithRaft();
-            if(firstY <= -0.65f){
+        } else if (onRaft && resource.raftSwim) {
+            goWithRaft();
+            if (posY <= -0.65f) {
                 leaveTheRaft();
             }
-        }else if(this->right){
+        } else if (this->right) {
             goRight();
-            if(firstX >= 0.60f && resource.loadingCars){
+            if (posX >= 0.60f && resource.loadingCars) {
                 enterRaft();
                 enterTheRaftWithOutWaiting();
             }
-        }else if(this->left && enterTheField){
+        } else if (this->left && enterTheField) {
             goLeft();
             this->move = noSpeeding;
-            if(firstX <= -0.82){
+            if (posX <= -0.82f) {
                 turnUp();
             }
-        }else if(this->up){
+        } else if (this->up) {
             goUp();
             this->move = normalMove;
-            if(firstY >= 0.70f){
+            if (posY >= 0.70f) {
                 turnRight();
             }
-        }else if(this->dontMove){
-
+        } else if (this->dontMove) {
+            // Do nothing
         }
     }
 }
 
-
-void Car::drawCar(){
-    float localFirstX;
-    float localFirstY;
-    float localSecondX;
-    float localSecondY;
-    float localThirdX;
-    float localThirdY;
+void Car::drawCar() {
+    float localPosX;
+    float localPosY;
 
     {
         std::lock_guard<std::mutex> lock(carMutex);
-        localFirstX = firstX;
-        localFirstY = firstY;
-        localSecondX = secondX;
-        localSecondY = secondY;
-        localThirdX = thirdX;
-        localThirdY = thirdY;
+        localPosX = posX;
+        localPosY = posY;
     }
 
+    glPushMatrix();
+    glTranslatef(localPosX, localPosY, 0.0f);
 
-    this->drawTriangle(localFirstX,localFirstY,localSecondX,localSecondY,localThirdX,localThirdY,firstColor,secondColor,thirdColor);
+    switch (direction) {
+        case CarDirection::Right:
+            glRotatef(0.0f, 0.0f, 0.0f, 1.0f);
+            break;
+        case CarDirection::Left:
+            glRotatef(180.0f, 0.0f, 0.0f, 1.0f);
+            break;
+        case CarDirection::Up:
+            glRotatef(90.0f, 0.0f, 0.0f, 1.0f);
+            break;
+        case CarDirection::OnRaft:
+            // No rotation needed
+            break;
+        default:
+            break;
+    }
+
+    this->drawRectangle(-width / 2, height / 2, width, height, colorR, colorG, colorB);
+
+    glPopMatrix();
 }
-
-
 
 float Car::generateRandomFloat(float bottomBorder, float topBorder) {
     std::random_device rd;
@@ -144,42 +146,30 @@ void Car::waitForLoading() {
     onRaft = true;
 }
 
-void Car::leaveTheRaft(){
-   firstX = 0.60f;
-   firstY = -0.77f;
-   secondX = 0.65f;
-   secondY = -0.80f;
-   thirdX = 0.65f;
-   thirdY = -0.75f;
-   this->enterTheField = true;
-   this->left = true;
-   this->onRaft = false;
+void Car::leaveTheRaft() {
+    posX = 0.55f;
+    posY = -0.77f;
+    this->enterTheField = true;
+    this->left = true;
+    this->onRaft = false;
 }
 
-void Car::turnUp(){
+void Car::turnUp() {
     this->left = false;
     this->up = true;
 }
 
-void Car::turnRight(){
-   this->right = true;
-   this->up = false;
-   counter +=1;
-   rearrangeVertices();
+void Car::turnRight() {
+    this->right = true;
+    this->up = false;
+    counter += 1;
 }
 
-void Car::enterTheRaftWithOutWaiting(){
+void Car::enterTheRaftWithOutWaiting() {
     this->right = false;
     onRaft = true;
 }
 
-void Car::dontMoveOnRaft(){
-}
-
-void Car::rearrangeVertices() {
-    float tempX = firstX, tempY = firstY;
-    firstX = secondX;
-    secondX = tempX;
-    firstY = secondY;
-    secondY = tempY;
+void Car::dontMoveOnRaft() {
+    // Do nothing
 }

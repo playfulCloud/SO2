@@ -14,5 +14,6 @@ add_executable(SO2 main.cpp
         car/Car.cpp
         car/Car.h
         shared/SharedResources.h
+        shared/CarsHolder.h
 )
 target_link_libraries(SO2 ${OPENGL_LIBRARIES} glfw)
