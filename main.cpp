@@ -4,6 +4,7 @@
 #include <random>
 #include <vector>
 #include <atomic>
+#include <queue>
 #include "board/Board.h"
 #include "raft/Raft.h"
 #include "car/Car.h"
@@ -66,21 +67,32 @@ int main(void) {
     std::thread raftThread(&Raft::updateRaftPosition, &raft);
     std::thread manageCarsThread(manageCarThreads, std::ref(carThreads), std::ref(cars), window, std::ref(sharedResources));
 
+    std::queue<Car> carsInBottomPace;
     while (!glfwWindowShouldClose(window)) {
-        glfwPollEvents();  // Make sure events are polled to process the space bar press
-
+        glfwPollEvents();
         board.clearScreen();
         board.drawBoard();
         raft.drawRaft();
 
-        // Wykrywanie i obsługa kolizji
         for (size_t i = 0; i < cars.size(); ++i) {
+            if(cars[i]->left && !cars[i]->isInQueue){
+                carsInBottomPace.push(*cars[i]);
+                cars[i]->move = carsInBottomPace.front().move;
+                cars[i]->isInQueue = true;
+            }
+            if(!cars[i]->left && cars[i]->isInQueue){
+                carsInBottomPace.pop();
+                cars[i]->isInQueue = false;
+            }
             for (size_t j = i + 1; j < cars.size(); ++j) {
+
                 if (cars[i]->isWaitingForLoading() && cars[j]->isWaitingForLoading()) {
                     if (cars[i]->isCollidingWith(*cars[j])) {
                         cars[i]->handleCollision(*cars[j]);
                     }
                 }
+
+
             }
             cars[i]->drawCar();
         }
@@ -92,3 +104,7 @@ int main(void) {
     glfwTerminate();
     return 0;
 }
+
+
+
+

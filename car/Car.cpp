@@ -36,7 +36,7 @@ void Car::handleCollision(Car& other) {
         std::cout << "Kolizja" << std::endl;
     }
 }
-Car::Car(GLFWwindow *win, SharedResources& resources) : window(win), resource(resources) {
+Car::Car(GLFWwindow *win, SharedResources& resources) : window(win), resource(resources){
     this->colorR = generateRandomFloat(0.0f, 1.0f);
     this->colorG = generateRandomFloat(0.0f, 1.0f);
     this->colorB = generateRandomFloat(0.0f, 1.0f);
@@ -79,6 +79,7 @@ void Car::goWithRaft() {
 
 void Car::goUp() {
     posY += move;
+    move = normalMove;
     direction = CarDirection::Up;
 }
 

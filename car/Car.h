@@ -5,6 +5,7 @@
 #ifndef SO2_CAR_H
 #define SO2_CAR_H
 
+#include <queue>
 #include "../shared/SharedResources.h"
 
 enum class CarDirection {
@@ -13,11 +14,9 @@ enum class CarDirection {
 
 class Car {
 private:
+
     const float firstRespawnX = -0.90f;
     const float firstRespawnY = 0.92f;
-    const float noSpeeding = 0.01f;
-    float normalMove;
-    float move;
     float posX;
     float posY;
     float width;
@@ -28,17 +27,20 @@ private:
     float colorG;
     float colorB;
     bool right = true;
-    bool left = false;
     bool up = false;
     bool enterTheField = false;
     bool colision = true;
     int counter = 0;
     bool dontMove = false;
     CarDirection direction = CarDirection::Right;
-    std::vector<Car>car;
+    std::queue<Car>bottomPaceCars;
     std::chrono::steady_clock::time_point collisionTime;
 
 public:
+    bool left = false;
+    float normalMove;
+    float move;
+    bool isInQueue = false;
     Car(GLFWwindow *win);
     void drawRectangle(float x1, float y1, float width, float height, float r, float g, float b);
     bool isWaitingForLoading() const;
@@ -80,6 +82,10 @@ public:
     bool isCollidingWith(const Car& other);
 
     void handleCollision(Car& other);
+
+    std::queue<Car> cars;
+
+    Car(GLFWwindow *win, SharedResources &resources, std::queue<Car> cars);
 };
 
 #endif //SO2_CAR_H
