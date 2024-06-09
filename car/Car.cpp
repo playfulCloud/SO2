@@ -115,13 +115,11 @@ void Car::updateCarPosition() {
             }
         } else if (this->left && enterTheField) {
             goLeft();
-            this->move = noSpeeding;
             if (posX <= -0.82f) {
                 turnUp();
             }
         } else if (this->up) {
             goUp();
-            this->move = normalMove;
             if (posY >= 0.70f) {
                 turnRight();
             }

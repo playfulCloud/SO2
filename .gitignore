@@ -1,0 +1,88 @@
+# Pliki kompilacji i foldery build
+/build/
+/bin/
+/obj/
+/out/
+/*.o
+/*.obj
+/*.exe
+/*.dll
+/*.so
+/*.dylib
+/*.a
+/*.lib
+/*.exp
+/*.pdb
+/*.idb
+/*.class
+
+# Pliki wygenerowane przez IDE
+/.idea/
+/.vscode/
+/.vscode/*
+*.code-workspace
+*.suo
+*.user
+*.userossc
+*.sln
+*.db
+*.opensdf
+*.VC.opendb
+*.VC.db
+
+# Pliki tymczasowe systemu operacyjnego
+.DS_Store
+Thumbs.db
+
+# Pliki tymczasowe edytorów tekstu
+*~
+*.swp
+*.swo
+*.tmp
+*.log
+
+# Pliki konfiguracji narzędzi
+*.cache
+*.clangd
+*.tags
+*.gch
+
+# Pliki testów i dokumentacji (opcjonalnie)
+test-results.xml
+coverage/
+docs/
+
+# Pliki CMake (jeśli używasz CMake)
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+
+# Pliki Makefile (jeśli używasz Make)
+*.d
+*.dep
+*.dwo
+*.lst
+
+# Pliki autoconf
+aclocal.m4
+autom4te.cache/
+compile
+config.*
+configure
+depcomp
+install-sh
+Makefile.in
+missing
+mkinstalldirs
+
+# Pliki ninja (jeśli używasz ninja build)
+.ninja_deps
+.ninja_log
+build.ninja
+
+# Pliki z symbolami debugowania
+*.dSYM/
+
+# Inne pliki specyficzne dla projektu (dostosuj według potrzeb)
+
