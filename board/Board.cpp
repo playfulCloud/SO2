@@ -14,6 +14,7 @@ void Board::drawBoard(){
     this->drawRectangle(-1.0f, -1.0f, 1.0f, 1.0f, 0.6f, 0.3f, 0.0f);
     this->drawRectangle(-0.75f, -0.65f, 0.65f, 0.65f, 0.0f, 1.0f, 0.0f);
     this->drawRectangle(0.65f, -1.0f, 1.0f, 1.0f,0.0f, 0.0f, 1.0f);
+    this->drawRectangle(-1.0f, -0.25f, -0.75f, 0.25f, 1.0f, 0.0f, 0.0f);//red square
 
     this->display();
     this->processInput();
