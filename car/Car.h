@@ -13,8 +13,11 @@ enum class CarDirection {
 };
 
 class Car {
+    static std::mutex redZoneMutex;
+    static bool redZoneOccupied;        // Flag indicating if any car is in the red zone
+    static std::condition_variable redZoneCond;  // C
 private:
-
+    bool waitingForRedZone = true;
     const float firstRespawnX = -0.90f;
     const float firstRespawnY = 0.92f;
     float posX;
@@ -37,6 +40,8 @@ private:
     std::chrono::steady_clock::time_point collisionTime;
 
 public:
+    void enterRedZone();
+    void leaveRedZone();
     bool left = false;
     float normalMove;
     float move;
@@ -86,6 +91,8 @@ public:
     std::queue<Car> cars;
 
     Car(GLFWwindow *win, SharedResources &resources, std::queue<Car> cars);
+
+    bool shouldEnterRedZone();
 };
 
 #endif //SO2_CAR_H

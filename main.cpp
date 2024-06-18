@@ -12,6 +12,8 @@
 std::atomic<bool> shutdownThreads(false);  // Flag to signal all threads to stop
 GLFWwindow* window;
 
+void handleLogic(const std::vector<Car *> &cars, std::queue<Car> &carsInBottomPace);
+
 void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods) {
     std::cout << "Key pressed: " << key << std::endl;
     if (key == GLFW_KEY_SPACE && action == GLFW_PRESS) {
@@ -74,28 +76,7 @@ int main(void) {
         board.drawBoard();
         raft.drawRaft();
 
-        for (size_t i = 0; i < cars.size(); ++i) {
-            if(cars[i]->left && !cars[i]->isInQueue){
-                carsInBottomPace.push(*cars[i]);
-                cars[i]->move = carsInBottomPace.front().move;
-                cars[i]->isInQueue = true;
-            }
-            if(!cars[i]->left && cars[i]->isInQueue){
-                carsInBottomPace.pop();
-                cars[i]->isInQueue = false;
-            }
-            for (size_t j = i + 1; j < cars.size(); ++j) {
-
-                if (cars[i]->isWaitingForLoading() && cars[j]->isWaitingForLoading()) {
-                    if (cars[i]->isCollidingWith(*cars[j])) {
-                        cars[i]->handleCollision(*cars[j]);
-                    }
-                }
-
-
-            }
-            cars[i]->drawCar();
-        }
+        handleLogic(cars, carsInBottomPace);
 
         board.display();
         board.processInput();
@@ -103,6 +84,31 @@ int main(void) {
 
     glfwTerminate();
     return 0;
+}
+
+void handleLogic(const std::vector<Car *> &cars, std::queue<Car> &carsInBottomPace) {
+    for (size_t i = 0; i < cars.size(); ++i) {
+        if(cars[i]->left && !cars[i]->isInQueue){
+            carsInBottomPace.push(*cars[i]);
+            cars[i]->move = carsInBottomPace.front().move;
+            cars[i]->isInQueue = true;
+        }
+        if(!cars[i]->left && cars[i]->isInQueue){
+            carsInBottomPace.pop();
+            cars[i]->isInQueue = false;
+        }
+        for (size_t j = i + 1; j < cars.size(); ++j) {
+
+            if (cars[i]->isWaitingForLoading() && cars[j]->isWaitingForLoading()) {
+                if (cars[i]->isCollidingWith(*cars[j])) {
+                    cars[i]->handleCollision(*cars[j]);
+                }
+            }
+
+
+        }
+        cars[i]->drawCar();
+    }
 }
 
 

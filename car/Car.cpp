@@ -15,11 +15,44 @@
 #include <cmath>
 
 std::mutex carMutex;
+bool Car::redZoneOccupied = false;
+std::mutex Car::redZoneMutex;
+std::condition_variable Car::redZoneCond;
 
 // Sprawdzanie kolizji z innym samochodem
 bool Car::isCollidingWith(const Car& other) {
     std::lock_guard<std::mutex> lock(carMutex);
     return std::abs(this->posX - other.posX) < this->width && std::abs(this->posY - other.posY) < this->height;
+}
+
+void Car::enterRedZone() {
+    std::cout << "tak" << std::endl;
+    move = normalMove;
+    waitingForRedZone = false;
+    std::unique_lock<std::mutex> lock(redZoneMutex);
+    redZoneCond.wait(lock, [] { return !redZoneOccupied; });
+    redZoneOccupied = true;
+}
+
+void Car::leaveRedZone() {
+    std::cout << "leave" << std::endl;
+    std::lock_guard<std::mutex> lock(redZoneMutex);
+    waitingForRedZone = true;
+    redZoneOccupied = false;
+    redZoneCond.notify_one();
+}
+void Car::goUp() {
+    direction = CarDirection::Up;
+    if(posY >= -0.35f && !redZoneOccupied){
+        enterRedZone();
+    }else if(posY >= -0.35f && redZoneOccupied && waitingForRedZone){
+        move = 0;
+    }
+    if(posY >= 0.25f && !waitingForRedZone){
+        leaveRedZone();
+    }
+
+    posY += move;
 }
 
 // Obsługa kolizji z innym samochodem
@@ -77,11 +110,7 @@ void Car::goWithRaft() {
     direction = CarDirection::OnRaft;
 }
 
-void Car::goUp() {
-    posY += move;
-    move = normalMove;
-    direction = CarDirection::Up;
-}
+
 
 void Car::goLeft() {
     posX -= move;
